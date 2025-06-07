@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>活用しないと遅れてる！！ググる裏技全集</title>
+    <title>プライベートブラウザ</title>
     <style>
         * {
             margin: 0;
@@ -12,145 +12,143 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Segoe UI', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+            padding: 10px;
         }
 
-        .browser-container {
+        .container {
             max-width: 1200px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.95);
+            margin: 0 auto;
+            background: white;
             border-radius: 15px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
             overflow: hidden;
-            backdrop-filter: blur(10px);
-            flex: 1;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            min-height: calc(100vh - 20px);
             display: flex;
             flex-direction: column;
         }
 
-        .browser-header {
+        .header {
             background: linear-gradient(45deg, #4a90e2, #357abd);
-            padding: 15px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            color: white;
         }
 
-        .browser-controls {
-            display: flex;
-            gap: 8px;
+        .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
         }
 
-        .control-btn {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            border: none;
-            cursor: pointer;
-        }
-
-        .close { background: #ff5f57; }
-        .minimize { background: #ffbd2e; }
-        .maximize { background: #28ca42; }
-
-        .url-bar-container {
-            flex: 1;
+        .url-section {
             display: flex;
             gap: 10px;
             align-items: center;
+            flex-wrap: wrap;
         }
 
-        .nav-btn {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: white;
-            padding: 8px 12px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-1px);
-        }
-
-        .nav-btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .url-bar {
+        .url-input {
             flex: 1;
+            min-width: 300px;
             padding: 12px 15px;
             border: none;
             border-radius: 25px;
-            font-size: 14px;
-            background: rgba(255, 255, 255, 0.9);
-            color: #333;
+            font-size: 16px;
             outline: none;
-            transition: all 0.3s ease;
-        }
-
-        .url-bar:focus {
-            background: white;
-            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
         }
 
         .go-btn {
             background: #28ca42;
             border: none;
             color: white;
-            padding: 12px 20px;
+            padding: 12px 25px;
             border-radius: 25px;
             cursor: pointer;
             font-weight: bold;
-            transition: all 0.3s ease;
+            font-size: 16px;
+            transition: all 0.3s;
         }
 
         .go-btn:hover {
             background: #20a034;
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(40, 202, 66, 0.4);
         }
 
-        .browser-content {
+        .content {
             flex: 1;
-            position: relative;
-            background: #f8f9fa;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
-        .browser-iframe {
-            width: 100%;
-            height: 100%;
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .quick-link {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 16px;
             border: none;
-            min-height: 600px;
+        }
+
+        .quick-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .browser-frame {
+            width: 100%;
+            height: 600px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .status {
+            background: #2c3e50;
+            color: white;
+            padding: 10px 20px;
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .private-badge {
+            background: #e74c3c;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
         }
 
         .loading {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+            text-align: center;
+            padding: 40px;
             display: none;
-            flex-direction: column;
-            align-items: center;
-            gap: 20px;
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid #e3e3e3;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
             border-top: 4px solid #4a90e2;
             border-radius: 50%;
             animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
         }
 
         @keyframes spin {
@@ -158,256 +156,120 @@
             100% { transform: rotate(360deg); }
         }
 
-        .status-bar {
-            background: #2c3e50;
-            color: white;
-            padding: 8px 20px;
-            font-size: 12px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .private-indicator {
-            background: #e74c3c;
-            color: white;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-
-        .quick-links {
-            padding: 20px;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-
-        .quick-link {
-            background: linear-gradient(45deg, #667eea, #764ba2);
-            color: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-decoration: none;
-            text-align: center;
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .quick-link:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-        }
-
         @media (max-width: 768px) {
-            .browser-container {
-                margin: 10px;
-                border-radius: 10px;
+            .url-section {
+                flex-direction: column;
             }
             
-            .browser-header {
-                padding: 10px 15px;
-                flex-wrap: wrap;
-                gap: 10px;
+            .url-input {
+                min-width: 100%;
             }
             
-            .url-bar-container {
-                width: 100%;
-                order: 2;
-            }
-            
-            .nav-btn {
-                padding: 6px 10px;
-                font-size: 12px;
+            .quick-links {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <div class="browser-container">
-        <div class="browser-header">
-            <div class="browser-controls">
-                <button class="control-btn close"></button>
-                <button class="control-btn minimize"></button>
-                <button class="control-btn maximize"></button>
-            </div>
-            
-            <div class="url-bar-container">
-                <button class="nav-btn" id="backBtn" disabled>←</button>
-                <button class="nav-btn" id="forwardBtn" disabled>→</button>
-                <button class="nav-btn" id="refreshBtn">⟲</button>
-                <input type="text" class="url-bar" id="urlBar" placeholder="URLを入力してください... (例: https://www.google.com)">
-                <button class="go-btn" id="goBtn">GO</button>
+    <div class="container">
+        <div class="header">
+            <div class="title">🔒 プライベートブラウザ</div>
+            <div class="url-section">
+                <input type="text" class="url-input" id="urlInput" placeholder="URLを入力してください (例: https://www.google.com)">
+                <button class="go-btn" onclick="loadSite()">GO</button>
             </div>
         </div>
 
-        <div class="browser-content">
+        <div class="content">
+            <div class="quick-links" id="quickLinks">
+                <button class="quick-link" onclick="loadUrl('https://www.google.com')">
+                    🔍 Google検索
+                </button>
+                <button class="quick-link" onclick="loadUrl('https://www.wikipedia.org')">
+                    📚 Wikipedia
+                </button>
+                <button class="quick-link" onclick="loadUrl('https://www.github.com')">
+                    💻 GitHub
+                </button>
+                <button class="quick-link" onclick="loadUrl('https://news.google.com')">
+                    📰 Google News  
+                </button>
+                <button class="quick-link" onclick="loadUrl('https://www.reddit.com')">
+                    🗨️ Reddit
+                </button>
+                <button class="quick-link" onclick="loadUrl('https://duckduckgo.com')">
+                    🦆 DuckDuckGo
+                </button>
+            </div>
+
             <div class="loading" id="loading">
                 <div class="spinner"></div>
-                <p>読み込み中...</p>
+                <p>サイトを読み込み中...</p>
             </div>
-            
-            <div class="quick-links" id="quickLinks">
-                <div class="quick-link" onclick="loadUrl('https://www.google.com')">
-                    🔍 Google検索
-                </div>
-                <div class="quick-link" onclick="loadUrl('https://www.youtube.com')">
-                    📺 YouTube
-                </div>
-                <div class="quick-link" onclick="loadUrl('https://www.wikipedia.org')">
-                    📚 Wikipedia
-                </div>
-                <div class="quick-link" onclick="loadUrl('https://www.github.com')">
-                    💻 GitHub
-                </div>
-                <div class="quick-link" onclick="loadUrl('https://www.twitter.com')">
-                    🐦 Twitter
-                </div>
-                <div class="quick-link" onclick="loadUrl('https://www.reddit.com')">
-                    🗨️ Reddit
-                </div>
-            </div>
-            
-            <iframe class="browser-iframe" id="browserFrame" style="display: none;"></iframe>
+
+            <iframe class="browser-frame" id="browserFrame"></iframe>
         </div>
 
-        <div class="status-bar">
-            <div class="private-indicator">
-                🔒 プライベートモード
-            </div>
-            <div id="statusText">プライベートブラウザが起動しています</div>
+        <div class="status">
+            <div class="private-badge">プライベートモード</div>
+            <div id="statusText">プライベートブラウザが起動中</div>
         </div>
     </div>
 
     <script>
-        let history = [];
-        let currentIndex = -1;
-        
-        const urlBar = document.getElementById('urlBar');
-        const goBtn = document.getElementById('goBtn');
-        const backBtn = document.getElementById('backBtn');
-        const forwardBtn = document.getElementById('forwardBtn');
-        const refreshBtn = document.getElementById('refreshBtn');
+        const urlInput = document.getElementById('urlInput');
         const browserFrame = document.getElementById('browserFrame');
         const loading = document.getElementById('loading');
         const quickLinks = document.getElementById('quickLinks');
         const statusText = document.getElementById('statusText');
 
-        function showLoading() {
-            loading.style.display = 'flex';
-            browserFrame.style.display = 'none';
-            quickLinks.style.display = 'none';
-        }
-
-        function hideLoading() {
-            loading.style.display = 'none';
-            browserFrame.style.display = 'block';
-            quickLinks.style.display = 'none';
-        }
-
-        function showQuickLinks() {
-            loading.style.display = 'none';
-            browserFrame.style.display = 'none';
-            quickLinks.style.display = 'grid';
-        }
-
-        function updateButtons() {
-            backBtn.disabled = currentIndex <= 0;
-            forwardBtn.disabled = currentIndex >= history.length - 1;
-        }
-
-        function addToHistory(url) {
-            // 現在の位置より後の履歴を削除
-            history = history.slice(0, currentIndex + 1);
-            history.push(url);
-            currentIndex = history.length - 1;
-            updateButtons();
+        function loadSite() {
+            const url = urlInput.value.trim();
+            if (url) {
+                loadUrl(url);
+            }
         }
 
         function loadUrl(url) {
-            if (!url) return;
-            
             // URLの正規化
             if (!url.startsWith('http://') && !url.startsWith('https://')) {
                 url = 'https://' + url;
             }
 
-            showLoading();
+            // UI更新
+            quickLinks.style.display = 'none';
+            loading.style.display = 'block';
+            browserFrame.style.display = 'none';
             statusText.textContent = `読み込み中: ${url}`;
-            
-            // 履歴に追加（実際のブラウザ履歴には残らない）
-            addToHistory(url);
-            urlBar.value = url;
+            urlInput.value = url;
 
-            // iframeでサイトを読み込み
+            // iframe読み込み
             browserFrame.src = url;
-            
+
             browserFrame.onload = function() {
-                hideLoading();
+                loading.style.display = 'none';
+                browserFrame.style.display = 'block';
                 statusText.textContent = `読み込み完了: ${url}`;
             };
 
             browserFrame.onerror = function() {
-                hideLoading();
-                statusText.textContent = `エラー: ${url} を読み込めませんでした`;
-                alert('このサイトは読み込めません。CORS制限またはX-Frame-Options制限のため表示できない可能性があります。');
+                loading.style.display = 'none';
+                quickLinks.style.display = 'grid';
+                statusText.textContent = 'エラー: サイトを読み込めませんでした';
+                alert('このサイトはiframe内での表示が制限されています。');
             };
         }
 
-        // イベントリスナー
-        goBtn.addEventListener('click', () => {
-            loadUrl(urlBar.value);
-        });
-
-        urlBar.addEventListener('keypress', (e) => {
+        // Enterキーでの実行
+        urlInput.addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                loadUrl(urlBar.value);
+                loadSite();
             }
         });
 
-        backBtn.addEventListener('click', () => {
-            if (currentIndex > 0) {
-                currentIndex--;
-                const url = history[currentIndex];
-                urlBar.value = url;
-                browserFrame.src = url;
-                updateButtons();
-                statusText.textContent = `戻る: ${url}`;
-            }
-        });
-
-        forwardBtn.addEventListener('click', () => {
-            if (currentIndex < history.length - 1) {
-                currentIndex++;
-                const url = history[currentIndex];
-                urlBar.value = url;
-                browserFrame.src = url;
-                updateButtons();
-                statusText.textContent = `進む: ${url}`;
-            }
-        });
-
-        refreshBtn.addEventListener('click', () => {
-            if (browserFrame.src) {
-                showLoading();
-                browserFrame.src = browserFrame.src;
-                statusText.textContent = `更新中: ${browserFrame.src}`;
-            }
-        });
-
-        // 初期状態
-        showQuickLinks();
-        updateButtons();
-
-        // ページを離れる時に履歴をクリア
-        window.addEventListener('beforeunload', () => {
-            history = [];
-            currentIndex = -1;
-        });
+        // 初期メッセージ
+        statusText.textContent = 'URLを入力するか、クイックリンクを選択してください';
     </script>
 </body>
 </html>
